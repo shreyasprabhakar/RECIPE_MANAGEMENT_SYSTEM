@@ -1,4 +1,4 @@
-# 🍽️ The Eagles Recipes - Flask Recipe Management System
+# 🍽️ Recipe Management System
 
 A complete web application for managing and sharing recipes built with Python Flask, SQLite, and modern web technologies.
 
