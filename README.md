@@ -204,20 +204,6 @@ The application comes with pre-configured users:
 | `/add_comment/<id>` | POST | Add comment to recipe | Required |
 | `/recipe_image/<id>` | GET | Serve recipe image | No |
 
-## 🖼️ Screenshots
-
-### Login Page
-![Login Page](https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&w=1000&q=80)
-
-### Main Dashboard
-- Beautiful category cards with images
-- Floating action buttons for add/delete
-- Responsive grid layout
-
-### Recipe Details
-- Full recipe instructions
-- Image display
-- Interactive comment section
 
 ## 🔧 Database Management with DB Browser
 
@@ -261,9 +247,6 @@ The modular Flask structure makes it easy to:
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 👨‍💻 CONTRIBUTORS
 
