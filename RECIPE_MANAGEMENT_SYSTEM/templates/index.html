@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipe Categories</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #dbc391ff 50%, #ceccc7ff 100%);
+            color: #fff;
+        }
+
+        /* NAVIGATION BAR */
+        .navbar {
+            background: #d1cec4ff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: #222;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .navbar a:hover {
+            color: #ba9935ff;
+        }
+
+        .nav-right {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .greeting {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .hero {
+            background: url('https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+            padding: 100px 20px;
+            text-align: center;
+            color: #ba9935ff;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            color: #e0f7fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover img {
+            transform: scale(1.05);
+        }
+
+        .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(209, 200, 152, 0.77), transparent);
+        }
+
+        .card-overlay h2 {
+            margin: 0;
+            font-size: 1.4rem;
+        }
+
+        .card-overlay p {
+            margin: 5px 0 0;
+            font-size: 0.95rem;
+            color: #e0f7fa;
+        }
+
+        .highlight-card {
+            padding: 5px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            border: 3px solid #ba9935;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        @media (max-width: 768px) {
+            .highlight-card {
+                transform: none;
+                margin-top: 30px;
+            }
+        }
+
+        /* Floating Action Buttons */
+        .fab,
+        .delete-fab {
+            position: fixed;
+            bottom: 30px;
+            width: 60px;
+            height: 60px;
+            font-size: 32px;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .fab {
+            right: 30px;
+            background-color: #ba9935;
+        }
+
+        .fab:hover {
+            background-color: #a8822e;
+        }
+
+        .delete-fab {
+            right: 100px;
+            background-color: #a8822e;
+        }
+
+        .delete-fab:hover {
+            background-color: #c0392b;
+        }
+
+        /* Modal Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.6);
+        }
+
+        .modal-content {
+            background: #fff;
+            color: #333;
+            margin: 5% auto;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .modal-content h2 {
+            text-align: center;
+            margin-top: 0;
+        }
+
+        .modal-content label {
+            display: block;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        .modal-content input,
+        .modal-content textarea,
+        .modal-content select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+
+        .modal-content button[type="submit"] {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background-color: #ba9935;
+            color: white;
+            border: none;
+            font-weight: bold;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .modal-content button[type="submit"]:hover {
+            background-color: #a8822e;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .nav-search {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+        }
+        
+        .nav-search input[type="text"] {
+            padding: 6px 10px;
+            border: 1.5px solid #ba9935;
+            border-radius: 6px 0 0 6px;
+            font-size: 0.9rem;
+            outline: none;
+            color: #222;
+            width: 180px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .nav-search input[type="text"]:focus {
+            border-color: #a8822e;
+        }
+        
+        .nav-search button {
+            padding: 6px 12px;
+            border: 1.5px solid #ba9935;
+            border-left: none;
+            background-color: #ba9935;
+            color: white;
+            border-radius: 0 6px 6px 0;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        
+        .nav-search button:hover {
+            background-color: #a8822e;
+        }
+        
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+
+        <a href="http://127.0.0.1:5000/category/1">Salads</a>
+        <a href="http://127.0.0.1:5000/category/3">Lunch</a>
+       
+        <a href="http://127.0.0.1:5000/category/2">Main Dishes</a>
+        <a href="http://127.0.0.1:5000/category/4">Break Fast </a>
+        <a href="http://127.0.0.1:5000/category/5">Fast Foods</a>
+        <a href="/index">More...</a>
+        <a href="#">About Us</a>
+        <!-- Search Form -->
+        <form action="/search" method="GET" class="nav-search">
+            <input type="text" name="q" placeholder="Search recipes..." required>
+            <button type="submit">🔍</button>
+        </form>
+       
+            <span class="greeting">Hello! {{ username }}</span>
+            <a href="/logout" class="logout" style="color: #a6a6a4ff; font-weight: bold;">Logout</a>
+    
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Feeling Hungry ?</h1>
+        <p>Choose your favorite category.</p>
+    </section>
+
+    <!-- Recipe Category Cards -->
+    <div class="container">
+        <div class="grid">
+            {% for cat in categories %}
+                <a href="/category/{{ cat.id }}" class="card {% if cat.name == 'Fast Food' %}highlight-card{% endif %}">
+                    {% if cat.name == "Salads" %}
+                        <img src="https://tse4.mm.bing.net/th/id/OIP.Mpo1yZ8ETvRvtyvH-K7yCwHaLB?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3" alt="{{ cat.name }}">
+                    {% elif cat.name == "Main Course" %}
+                        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=800&q=80" alt="{{ cat.name }}">
+                    {% elif cat.name == "Lunch" %}
+                        <img src="https://res.cloudinary.com/rainforest-cruises/images/c_fill,g_auto/f_auto,q_auto/w_1120,h_732,c_fill,g_auto/v1661347392/india-food-paratha/india-food-paratha-1120x732.jpg" alt="{{ cat.name }}">
+                    {% elif cat.name == "Breakfast" %}
+                        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80" alt="{{ cat.name }}">
+                    {% elif cat.name == "Fast Food" %}
+                    <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80" alt="{{ cat.name }}">
+                {% elif cat.name == "Juices" %}
+                    <img src="https://plus.unsplash.com/premium_photo-1663126827264-409d695e0be7?auto=format&fit=crop&q=80&w=687" alt="{{ cat.name }}">
+                {% elif cat.name == "Appetizers" %}
+                    <img src="https://th.bing.com/th/id/OIP.o-paC3xGvsMU2Cv4bKxGdwHaLH?w=208&h=305&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3" alt="{{ cat.name }}">
+                {% elif cat.name == "Strictly Indian" %}
+                    <img src="https://images.pexels.com/photos/2802527/pexels-photo-2802527.jpeg" alt="{{ cat.name }}">
+                {% else %}
+                    <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=800&q=80" alt="{{ cat.name }}">
+                {% endif %}
+                <div class="card-overlay">
+                    <h2>{{ cat.name }}</h2>
+                    <p>View All Recipes</p>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</div>
+
+<button class="fab" onclick="openModal()">+</button>
+
+
+<button class="delete-fab" onclick="openDeleteModal()">🗑️</button>
+
+
+<div id="fabModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Add New Recipe</h2>
+        <form action="/add_recipe" method="POST" enctype="multipart/form-data">
+            <label for="name">Recipe Name</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="ingredients">Ingredients</label>
+            <textarea id="ingredients" name="ingredients" rows="3" required></textarea>
+
+            <label for="instructions">Instructions</label>
+            <textarea id="instructions" name="instructions" rows="3" required></textarea>
+
+            <label for="category_id">Category</label>
+            <select id="category_id" name="category_id" required>
+                {% for cat in categories %}
+                    <option value="{{ cat.id }}">{{ cat.name }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="image">Image</label>
+            <input type="file" id="image" name="image" accept="image/*" required>
+
+            <button type="submit">Submit Recipe</button>
+        </form>
+    </div>
+</div>
+
+
+<div id="deleteModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeDeleteModal()">&times;</span>
+        <h2>Delete Recipe</h2>
+        <form action="/delete_recipe" method="POST">
+            <label for="delete_name">Enter Recipe Name</label>
+            <input type="text" id="delete_name" name="delete_name" placeholder="e.g., Chicken Curry" required>
+            <button type="submit">Delete Recipe</button>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    function openModal() {
+        document.getElementById('fabModal').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('fabModal').style.display = 'none';
+    }
+
+    function openDeleteModal() {
+        document.getElementById('deleteModal').style.display = 'block';
+    }
+
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').style.display = 'none';
+    }
+
+    // Close modals when clicking outside
+    window.onclick = function(event) {
+        const fabModal = document.getElementById('fabModal');
+        const deleteModal = document.getElementById('deleteModal');
+        if (event.target === fabModal) {
+            fabModal.style.display = "none";
+        }
+        if (event.target === deleteModal) {
+            deleteModal.style.display = "none";
+        }
+    }
+</script>
+
+</body>
+</html>

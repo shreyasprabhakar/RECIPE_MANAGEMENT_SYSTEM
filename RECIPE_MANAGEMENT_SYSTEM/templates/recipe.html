@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ recipe.name }}</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom right, #f8f9fa, #e3f2fd);
+            color: #333;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        h3 {
+            color: #2980b9;
+            margin-top: 30px;
+            font-size: 1.3rem;
+        }
+        p {
+            background-color: #ffffffcc;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #1abc9c;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        a:hover {
+            color: #16a085;
+        }
+        img {
+            display: block;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* Comment section styles */
+        .comment-box {
+            margin-top: 40px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .comment-box textarea {
+            width: 100%;
+            height: 120px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        .comment-box button {
+            padding: 10px 20px;
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .comment-box button:hover {
+            background-color: #1f6f92;
+        }
+
+        .comments {
+            margin-top: 40px;
+        }
+
+        .comment {
+            padding: 10px;
+            background: #ffffffcc;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 10px;
+        }
+
+        .comment .username {
+            font-weight: bold;
+            color: #2980b9;
+        }
+
+        .comment .created-at {
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>{{ recipe.name }}</h1>
+
+    <img src="/recipe_image/{{ recipe.id }}" alt="{{ recipe.name }}" style="max-width:400px;">
+
+    <h3>Ingredients</h3>
+    <p>{{ recipe.ingredients }}</p>
+
+    <h3>Instructions</h3>
+    <p>{{ recipe.instructions }}</p>
+
+    <a href="/category/{{ recipe.category_id }}">← Back to Category</a><br>
+    <a href="/index">← Back to Home</a>
+
+    <!-- Comment Box -->
+    <div class="comment-box">
+        <h3>Leave a Comment</h3>
+        <form action="/add_comment/{{ recipe.id }}" method="POST">
+            <textarea name="comment" placeholder="Write your comment here..." required></textarea>
+            <button type="submit">Post Comment</button>
+        </form>
+    </div>
+
+    <!-- Display Comments -->
+    <div class="comments">
+        <h3>Comments</h3>
+        {% for comment in comments %}
+            <div class="comment">
+                <div class="username">{{ comment.user_name }}</div>
+                <p>{{ comment.comment_text }}</p>
+                <div class="created-at">{{ comment.created_at }}</div>
+            </div>
+        {% endfor %}
+    </div>
+    
+
+</body>
+</html>
