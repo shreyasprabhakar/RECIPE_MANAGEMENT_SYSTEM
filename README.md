@@ -10,9 +10,6 @@ A complete web application for managing and sharing recipes built with Python Fl
 - [Database Schema](#database-schema)
 - [Usage](#usage)
 - [API Routes](#api-routes)
-- [Screenshots](#screenshots)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## ✨ Features
 
@@ -238,14 +235,6 @@ The modular Flask structure makes it easy to:
 - Implement recipe ratings
 - Add recipe search filters
 - Include social sharing
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 
 ## 👨‍💻 CONTRIBUTORS
